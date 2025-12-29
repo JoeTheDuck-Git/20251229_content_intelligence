@@ -177,7 +177,7 @@ export function generateOrganicTagInsight(
   } else {
     builder.temporalStabilityFraming(
       `This ${tag.tagName} element`,
-      "volatile",
+      "declining",
       "Momentum patterns show variability across different engagement contexts."
     );
   }

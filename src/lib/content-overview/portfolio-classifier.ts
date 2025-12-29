@@ -40,7 +40,7 @@ export function classifyContentPortfolio(
     ...organicAssets.map((a) => a.id),
   ]);
 
-  for (const assetId of allAssetIds) {
+  for (const assetId of Array.from(allAssetIds)) {
     const paidAsset = paidAssets.find((a) => a.id === assetId);
     const organicAsset = organicAssets.find((a) => a.id === assetId);
     const paidMetricHistory = paidMetrics.get(assetId) || [];

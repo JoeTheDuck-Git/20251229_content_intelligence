@@ -1,7 +1,9 @@
+import type { Pacing } from "./ads";
+
 export type OrganicPlatform = "YouTube" | "Meta" | "TikTok";
 export type ContentFormat = "image" | "video";
 export type VisualFocus = "product" | "person" | "scene" | "text";
-export type Pacing = "slow" | "medium" | "fast";
+export type { Pacing };
 export type EmotionalTone = "informative" | "entertaining" | "inspiring";
 export type MomentumType = "organic_spike" | "steady_growth" | "viral_candidate" | "decaying";
 export type PlatformFit = "low" | "medium" | "high";

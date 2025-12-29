@@ -1,4 +1,6 @@
-export type Pacing = "slow" | "medium" | "fast";
+import type { Pacing } from "./ads";
+
+export type { Pacing };
 export type VisualDensity = "low" | "medium" | "high";
 export type DurationBucket = "short" | "mid" | "long";
 export type FatigueStatus = "healthy" | "early_warning" | "fatigued";

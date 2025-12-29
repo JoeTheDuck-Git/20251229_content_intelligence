@@ -1,6 +1,7 @@
+import type { ContentFormat, VisualFocus } from "./organic";
+
 export type CompetitorPlatform = "Instagram" | "TikTok" | "YouTube";
-export type ContentFormat = "image" | "video";
-export type VisualFocus = "product" | "person" | "scene" | "text";
+export type { ContentFormat, VisualFocus };
 export type TrendDirection = "emerging" | "stable" | "declining";
 export type SignalType = "keyword" | "hook" | "visual" | "narrative";
 
@@ -11,7 +12,7 @@ export interface CompetitorProfile {
   category: string;
 }
 
-export interface CreativeSignals {
+export interface CompetitorCreativeSignals {
   visualFocus: VisualFocus;
   hookStyle: string;
   narrativeAngle: string;
@@ -24,7 +25,7 @@ export interface CompetitorContentAsset {
   platform: CompetitorPlatform;
   format: ContentFormat;
   publishDate: string;
-  creativeSignals: CreativeSignals;
+  creativeSignals: CompetitorCreativeSignals;
   caption?: string;
   thumbnailUrl?: string;
 }

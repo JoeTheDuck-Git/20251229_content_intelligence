@@ -1,6 +1,8 @@
 import { YouTubeRetentionMetrics, YouTubeNarrativeSegment, DropOffAnalysis } from "@/types/youtube";
 import { NarrativeStructure } from "../narrative-analysis/narrative-mapper";
 
+export type { DropOffAnalysis };
+
 export function interpretDropOffs(
   metrics: YouTubeRetentionMetrics,
   narrativeStructure: NarrativeStructure

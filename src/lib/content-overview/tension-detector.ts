@@ -90,7 +90,7 @@ export function detectStrategicTensions(
 
   // Tension 4: Fatigue concentration in high-performing assets
   let fatiguedHighPerformers = 0;
-  for (const [assetId, metrics] of paidMetrics.entries()) {
+  for (const [assetId, metrics] of Array.from(paidMetrics.entries())) {
     if (metrics.length > 0) {
       const latest = metrics[metrics.length - 1];
       const fatigue = fatigueData.get(assetId);

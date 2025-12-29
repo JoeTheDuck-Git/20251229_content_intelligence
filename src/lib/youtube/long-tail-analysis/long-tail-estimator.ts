@@ -2,6 +2,8 @@ import { YouTubeRetentionMetrics, LongTailAnalysis } from "@/types/youtube";
 import { analyzeRetention, RetentionAnalysis } from "../retention-analysis/retention-analyzer";
 import { NarrativeStructure } from "../narrative-analysis/narrative-mapper";
 
+export type { LongTailAnalysis };
+
 export function estimateLongTailPotential(
   metrics: YouTubeRetentionMetrics,
   retentionAnalysis: RetentionAnalysis,

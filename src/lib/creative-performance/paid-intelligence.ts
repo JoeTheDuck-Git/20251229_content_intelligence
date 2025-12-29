@@ -24,7 +24,7 @@ export function analyzePaidCreativeHealth(
     const fatigue = fatigueMap.get(asset.id);
     if (fatigue) {
       if (fatigue.status === "healthy") healthyCount++;
-      else if (fatigue.status === "warning") warningCount++;
+      else if (fatigue.status === "early_warning") warningCount++;
       else fatiguedCount++;
 
       const metrics = metricsMap.get(asset.id) || [];
@@ -124,7 +124,7 @@ export function analyzePaidTagEfficiency(
       const sensitivity =
         fatigue.status === "fatigued"
           ? "high"
-          : fatigue.status === "warning"
+          : fatigue.status === "early_warning"
           ? "medium"
           : "low";
       data.fatigueSensitivities.push(sensitivity);

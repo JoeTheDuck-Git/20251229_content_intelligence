@@ -49,12 +49,12 @@ export default function TrendOverviewPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Active Moments</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
             {activeMoments.length > 0 ? (
               activeMoments.map((moment) => (
                 <Link key={moment.id} href={`/trend-intelligence/moment-detail?id=${moment.id}`}>
@@ -69,11 +69,11 @@ export default function TrendOverviewPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>All Moments</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
             {demoMoments.map((moment) => (
               <Link key={moment.id} href={`/trend-intelligence/moment-detail?id=${moment.id}`}>
                 <MomentCard moment={moment} />
@@ -168,6 +168,25 @@ export default function TrendOverviewPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* CTA to Market Context */}
+      <div className="mt-8">
+        <Card className="border-blue-200 bg-blue-50/30">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold mb-2">Analyze Strategic Context</h3>
+                <p className="text-sm text-muted-foreground">
+                  View interpreted market signals that provide context for strategic thinking.
+                </p>
+              </div>
+              <Link href="/dashboard/market-context">
+                <Button>View Market Context</Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

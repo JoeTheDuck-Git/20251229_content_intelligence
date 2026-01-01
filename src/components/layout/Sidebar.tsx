@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { 
   LayoutDashboard, 
   TrendingUp, 
@@ -14,8 +13,6 @@ import {
   Play,
   Users,
   Palette,
-  ChevronDown,
-  ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -68,10 +65,26 @@ const adsIntelligencePages = [
   },
 ];
 
+// Dashboard sub-pages (under Content Dashboard)
+const dashboardSubPages = [
+  {
+    title: "Content Overview",
+    href: "/dashboard/content-overview",
+  },
+  {
+    title: "Market Context",
+    href: "/dashboard/market-context",
+  },
+  {
+    title: "Measurement Insights",
+    href: "/dashboard/measurement-insights",
+  },
+];
+
 // Organic Intelligence sub-pages
 const organicIntelligencePages = [
   {
-    title: "Trend Intelligence",
+    title: "Trend Intelligence (Market Observation)",
     href: "/trend-intelligence/overview",
     icon: TrendingDown,
   },
@@ -84,23 +97,6 @@ const organicIntelligencePages = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  
-  // Creative Performance 展開狀態
-  const [isCreativePerformanceOpen, setIsCreativePerformanceOpen] = useState(() => {
-    return creativePerformancePages.some(page => pathname?.startsWith(page.href));
-  });
-
-  // Ads Intelligence 展開狀態
-  const [isAdsIntelligenceOpen, setIsAdsIntelligenceOpen] = useState(() => {
-    return adsIntelligencePages.some(page => pathname?.startsWith(page.href)) ||
-           pathname?.startsWith("/ads-intelligence");
-  });
-
-  // Organic Intelligence 展開狀態
-  const [isOrganicIntelligenceOpen, setIsOrganicIntelligenceOpen] = useState(() => {
-    return organicIntelligencePages.some(page => pathname?.startsWith(page.href)) ||
-           pathname?.startsWith("/organic-intelligence");
-  });
 
   const isCreativePerformanceActive = creativePerformancePages.some(
     page => pathname?.startsWith(page.href)
@@ -123,180 +119,178 @@ export function Sidebar() {
       </div>
       
       <nav className="flex-1 p-4 space-y-1">
-        {/* 1. Content Dashboard */}
+        {/* 1. Content Dashboard (Non-clickable header) */}
         {mainModules.slice(0, 1).map((module) => {
           const Icon = module.icon;
-          const isActive = pathname?.startsWith(module.href);
+          const isActive = dashboardSubPages.some(page => pathname?.startsWith(page.href));
           return (
-            <Link
+            <div
               key={module.href}
-              href={module.href}
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
                 isActive
                   ? "bg-accent text-accent-foreground font-medium"
-                  : "hover:bg-accent hover:text-accent-foreground"
+                  : "text-muted-foreground"
               )}
             >
               <Icon className="h-5 w-5" />
               <span className="text-sm font-medium">{module.title}</span>
-            </Link>
+            </div>
           );
         })}
 
+        {/* 1.5. Dashboard Sub-pages */}
+        <div className="pt-2">
+          <div className="ml-8 mt-1 space-y-1">
+            {dashboardSubPages.map((page) => {
+              const isActive = pathname?.startsWith(page.href);
+              return (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
+                    isActive
+                      ? "bg-accent text-accent-foreground font-medium"
+                      : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                  )}
+                >
+                  <span>{page.title}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         {/* 2. Creative Performance Section */}
         <div className="pt-2">
-          <button
-            onClick={() => setIsCreativePerformanceOpen(!isCreativePerformanceOpen)}
+          <div
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+              "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
               isCreativePerformanceActive
                 ? "bg-accent text-accent-foreground font-medium"
-                : "hover:bg-accent hover:text-accent-foreground"
+                : "text-muted-foreground"
             )}
           >
             <Palette className="h-5 w-5" />
-            <span className="text-sm font-medium flex-1 text-left">Creative Performance</span>
-            {isCreativePerformanceOpen ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronRight className="h-4 w-4" />
-            )}
-          </button>
+            <span className="text-sm font-medium">Creative Performance</span>
+          </div>
           
-          {isCreativePerformanceOpen && (
-            <div className="ml-8 mt-1 space-y-1">
-              {creativePerformancePages.map((page) => {
-                const isActive = pathname?.startsWith(page.href);
-                return (
-                  <Link
-                    key={page.href}
-                    href={page.href}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
-                      isActive
-                        ? "bg-accent text-accent-foreground font-medium"
-                        : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                    )}
-                  >
-                    <span>{page.title}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          <div className="ml-8 mt-1 space-y-1">
+            {creativePerformancePages.map((page) => {
+              const isActive = pathname?.startsWith(page.href);
+              return (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
+                    isActive
+                      ? "bg-accent text-accent-foreground font-medium"
+                      : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                  )}
+                >
+                  <span>{page.title}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* 3. Ads Intelligence Section */}
         <div className="pt-2">
-          <button
-            onClick={() => setIsAdsIntelligenceOpen(!isAdsIntelligenceOpen)}
+          <div
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+              "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
               isAdsIntelligenceActive
                 ? "bg-accent text-accent-foreground font-medium"
-                : "hover:bg-accent hover:text-accent-foreground"
+                : "text-muted-foreground"
             )}
           >
             <TrendingUp className="h-5 w-5" />
-            <span className="text-sm font-medium flex-1 text-left">Ads Intelligence</span>
-            {isAdsIntelligenceOpen ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronRight className="h-4 w-4" />
-            )}
-          </button>
+            <span className="text-sm font-medium">Ads Intelligence</span>
+          </div>
           
-          {isAdsIntelligenceOpen && (
-            <div className="ml-8 mt-1 space-y-1">
-              <Link
-                href="/ads-intelligence/overview"
-                className={cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
-                  pathname?.startsWith("/ads-intelligence/overview")
-                    ? "bg-accent text-accent-foreground font-medium"
-                    : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                )}
-              >
-                <span>Overview</span>
-              </Link>
-              {adsIntelligencePages.map((page) => {
-                const Icon = page.icon;
-                const isActive = pathname?.startsWith(page.href);
-                return (
-                  <Link
-                    key={page.href}
-                    href={page.href}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
-                      isActive
-                        ? "bg-accent text-accent-foreground font-medium"
-                        : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span>{page.title}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          <div className="ml-8 mt-1 space-y-1">
+            <Link
+              href="/ads-intelligence/overview"
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
+                pathname?.startsWith("/ads-intelligence/overview")
+                  ? "bg-accent text-accent-foreground font-medium"
+                  : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+              )}
+            >
+              <span>Overview</span>
+            </Link>
+            {adsIntelligencePages.map((page) => {
+              const Icon = page.icon;
+              const isActive = pathname?.startsWith(page.href);
+              return (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
+                    isActive
+                      ? "bg-accent text-accent-foreground font-medium"
+                      : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{page.title}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* 4. Organic Intelligence Section */}
         <div className="pt-2">
-          <button
-            onClick={() => setIsOrganicIntelligenceOpen(!isOrganicIntelligenceOpen)}
+          <div
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+              "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
               isOrganicIntelligenceActive
                 ? "bg-accent text-accent-foreground font-medium"
-                : "hover:bg-accent hover:text-accent-foreground"
+                : "text-muted-foreground"
             )}
           >
             <Leaf className="h-5 w-5" />
-            <span className="text-sm font-medium flex-1 text-left">Organic Intelligence</span>
-            {isOrganicIntelligenceOpen ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronRight className="h-4 w-4" />
-            )}
-          </button>
+            <span className="text-sm font-medium">Organic Intelligence</span>
+          </div>
           
-          {isOrganicIntelligenceOpen && (
-            <div className="ml-8 mt-1 space-y-1">
-              <Link
-                href="/organic-intelligence/overview"
-                className={cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
-                  pathname?.startsWith("/organic-intelligence/overview")
-                    ? "bg-accent text-accent-foreground font-medium"
-                    : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                )}
-              >
-                <span>Overview</span>
-              </Link>
-              {organicIntelligencePages.map((page) => {
-                const Icon = page.icon;
-                const isActive = pathname?.startsWith(page.href);
-                return (
-                  <Link
-                    key={page.href}
-                    href={page.href}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
-                      isActive
-                        ? "bg-accent text-accent-foreground font-medium"
-                        : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span>{page.title}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          <div className="ml-8 mt-1 space-y-1">
+            <Link
+              href="/organic-intelligence/overview"
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
+                pathname?.startsWith("/organic-intelligence/overview")
+                  ? "bg-accent text-accent-foreground font-medium"
+                  : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+              )}
+            >
+              <span>Overview</span>
+            </Link>
+            {organicIntelligencePages.map((page) => {
+              const Icon = page.icon;
+              const isActive = pathname?.startsWith(page.href);
+              return (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-sm",
+                    isActive
+                      ? "bg-accent text-accent-foreground font-medium"
+                      : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{page.title}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* 5. Competitor Intelligence */}

@@ -29,6 +29,14 @@ import { generateMomentumState } from "@/lib/organic/momentum-intelligence/lifec
 import { FatigueAnalysis } from "@/types/fatigue";
 import { OrganicMomentumState } from "@/types/organic";
 import { MomentAlignmentResult } from "@/types/trend";
+import { TrendStrategicInterpretation } from "@/types/trend";
+import { TimePerspective } from "@/types/creative-performance";
+
+// Market Context Integration (Interpreted Signals)
+// Data flow: Trend Intelligence (Observation) → Market Context (Interpretation) → Strategy Feedback
+import { analyzeTrendSignals } from "@/lib/trend/trend-signals/trend-signal-analyzer";
+import { generateStrategicInterpretation } from "@/lib/trend/trend-strategic-interpretation/strategic-interpretation-generator";
+import { demoContentAssets } from "@/lib/demo-data/content-assets";
 
 // Components
 import { StrategyContextPanel } from "./components/StrategyContextPanel";
@@ -38,6 +46,7 @@ import { PlaybookCard } from "@/components/cards/PlaybookCard";
 import { RiskNotice } from "./components/RiskNotice";
 import { MarketRiskNotice } from "./components/MarketRiskNotice";
 import { ContextualConfidencePanel } from "./components/ContextualConfidencePanel";
+import { InterpretedMarketSignalsPanel } from "./components/InterpretedMarketSignalsPanel";
 
 // Market Context Analysis
 import { analyzeMarketContext, getActionMarketContext } from "@/lib/strategy-engine/market-context-analyzer";
@@ -198,6 +207,21 @@ export default function StrategyFeedbackPage() {
     };
   }, []);
 
+  // Generate interpreted market signals from market context
+  // Data flow: Trend Intelligence (Observation) → Market Context (Interpretation) → Strategy Feedback
+  const interpretedMarketSignals = useMemo(() => {
+    // Get trend signals (using Recent perspective for strategy context)
+    const trendSignals = analyzeTrendSignals(demoContentAssets, "Recent" as TimePerspective);
+    
+    // Convert to strategic interpretations (interpretation layer)
+    // Raw trend data MUST NOT be displayed on /strategy-feedback
+    const interpretations: TrendStrategicInterpretation[] = trendSignals.map((signal) =>
+      generateStrategicInterpretation(signal)
+    );
+    
+    return interpretations;
+  }, []);
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -273,6 +297,16 @@ export default function StrategyFeedbackPage() {
           Market context reflects observed competitor usage patterns. This section summarizes market saturation and differentiation opportunities.
         </p>
         <MarketRiskNotice marketAnalysis={strategyData.marketAnalysis} />
+      </section>
+
+      {/* 3.5. Interpreted Market Signals */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Interpreted Market Signals</h2>
+        <p className="text-muted-foreground mb-6">
+          Observed market patterns translated into strategic considerations.
+          These signals inform context, not decisions.
+        </p>
+        <InterpretedMarketSignalsPanel interpretations={interpretedMarketSignals} />
       </section>
 
       {/* 4. Contextual Confidence Panel */}

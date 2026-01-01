@@ -52,8 +52,13 @@ const modules = [
     icon: Leaf,
   },
   {
-    title: "Trend Intelligence",
+    title: "Trend Intelligence (Market Observation)",
     href: "/trend-intelligence/overview",
+    icon: TrendingDown,
+  },
+  {
+    title: "Market Context",
+    href: "/dashboard/market-context",
     icon: TrendingDown,
   },
   {
